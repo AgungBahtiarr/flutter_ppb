@@ -165,7 +165,7 @@ class RegisterSponsor extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text("Have an account ?"),
-            TextButton(onPressed: () {}, child: const Text("Login"),)
+            TextButton(onPressed: () {}, child: const Text("Login",style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),)
           ],
         ),
       ],

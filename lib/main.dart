@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ppb/screens/dashboard_event.dart';
 import 'package:flutter_ppb/screens/login_event.dart';
 import 'package:flutter_ppb/screens/register_event.dart';
 
@@ -12,10 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/register_event',
       routes: {
-        '/': (context) => const LoginEvent(),
+        '/login_event': (context) => const LoginEvent(),
         '/register_event': (context) => const RegisterEvent(),
+        '/dashboard_event': (context) => const DashboardEvent()
       },
       debugShowCheckedModeBanner: false,
     );

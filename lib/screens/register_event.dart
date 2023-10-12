@@ -1,7 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ppb/model/user.dart';
 
 class RegisterEvent extends StatelessWidget {
   const RegisterEvent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const FormRegisterEvent();
+  }
+}
+
+class FormRegisterEvent extends StatefulWidget {
+  const FormRegisterEvent({
+    super.key,
+  });
+
+  @override
+  State<FormRegisterEvent> createState() => _FormRegisterEventState();
+}
+
+class _FormRegisterEventState extends State<FormRegisterEvent> {
+  bool visible = true;
+
+  User user = User();
+
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +55,24 @@ class RegisterEvent extends StatelessWidget {
                 const SizedBox(
                   height: 62,
                 ),
-                const Row(
+                Row(
                   children: <Widget>[
                     Expanded(
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           "First Name",
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.w500),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                             top: 8,
                           ),
                           child: TextField(
-                            decoration: InputDecoration(
+                            controller: firstNameController,
+                            decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.account_box_sharp),
                                 enabled: true,
                                 enabledBorder: OutlineInputBorder(
@@ -66,7 +94,7 @@ class RegisterEvent extends StatelessWidget {
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
                             "Last Name",
@@ -75,9 +103,11 @@ class RegisterEvent extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 8, right: 10, left: 20),
+                          padding: const EdgeInsets.only(
+                              top: 8, right: 10, left: 20),
                           child: TextField(
-                            decoration: InputDecoration(
+                            controller: lastNameController,
+                            decoration: const InputDecoration(
                                 enabled: true,
                                 enabledBorder: OutlineInputBorder(
                                     borderRadius:
@@ -107,10 +137,12 @@ class RegisterEvent extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, right: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, right: 10),
                       child: TextField(
-                        decoration: InputDecoration(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             enabled: true,
                             enabledBorder: OutlineInputBorder(
@@ -134,23 +166,31 @@ class RegisterEvent extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, right: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, right: 10),
                       child: TextField(
-                        obscureText: true,
+                        controller: passwordController,
+                        obscureText: visible,
                         decoration: InputDecoration(
                             suffixIcon: Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Icon(Icons.remove_red_eye),
+                              padding: const EdgeInsets.only(right: 20),
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      visible = !visible;
+                                    });
+                                  },
+                                  icon:
+                                      const Icon(Icons.remove_red_eye_rounded)),
                             ),
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             enabled: true,
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 borderSide:
                                     BorderSide(width: 2, color: Colors.black)),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2, color: Colors.black),
                                 borderRadius:
@@ -158,23 +198,31 @@ class RegisterEvent extends StatelessWidget {
                             hintText: "Password"),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 8, right: 10),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, right: 10),
                       child: TextField(
-                        obscureText: true,
+                        controller: confirmPasswordController,
+                        obscureText: visible,
                         decoration: InputDecoration(
                             suffixIcon: Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Icon(Icons.remove_red_eye),
+                              padding: const EdgeInsets.only(right: 20),
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      visible = !visible;
+                                    });
+                                  },
+                                  icon:
+                                      const Icon(Icons.remove_red_eye_rounded)),
                             ),
-                            prefixIcon: Icon(Icons.lock),
+                            prefixIcon: const Icon(Icons.lock),
                             enabled: true,
-                            enabledBorder: OutlineInputBorder(
+                            enabledBorder: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 borderSide:
                                     BorderSide(width: 2, color: Colors.black)),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(width: 2, color: Colors.black),
                                 borderRadius:
@@ -194,7 +242,21 @@ class RegisterEvent extends StatelessWidget {
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10)))),
-                            onPressed: () {},
+                            onPressed: () {
+                              var username =
+                                  '${firstNameController.text} ${lastNameController.text}';
+                              var email = emailController.text;
+                              if (passwordController.text ==
+                                  confirmPasswordController.text) {
+                                setState(() {
+                                  user.name = username;
+                                  user.email = email;
+                                  user.password = passwordController.text;
+                                });
+                                Navigator.of(context)
+                                    .pushNamed('/login_event', arguments: user);
+                              }
+                            },
                             child: const Text(
                               "Register",
                               style: TextStyle(
@@ -213,7 +275,10 @@ class RegisterEvent extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text("Login"),
+                      child: const Text("Login",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold)),
                     )
                   ],
                 )

@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ppb/model/user.dart';
 
 class LoginEvent extends StatelessWidget {
   const LoginEvent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return const LoginForm();
+  }
+}
+
+class LoginForm extends StatefulWidget {
+  const LoginForm({
+    super.key,
+  });
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool visble = true;
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    final dataUser = ModalRoute.of(context)!.settings.arguments as User?;
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -35,10 +56,12 @@ class LoginEvent extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8, bottom: 18),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8, bottom: 18),
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.email),
                               enabled: true,
                               enabledBorder: OutlineInputBorder(
@@ -59,23 +82,31 @@ class LoginEvent extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w500),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8),
                         child: TextField(
-                          obscureText: true,
+                          controller: passwordController,
+                          obscureText: visble,
                           decoration: InputDecoration(
                               suffixIcon: Padding(
-                                padding: EdgeInsets.only(right: 30),
-                                child: Icon(Icons.remove_red_eye),
+                                padding: const EdgeInsets.only(right: 20),
+                                child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        visble = !visble;
+                                      });
+                                    },
+                                    icon: const Icon(
+                                        Icons.remove_red_eye_rounded)),
                               ),
-                              prefixIcon: Icon(Icons.lock),
+                              prefixIcon: const Icon(Icons.lock),
                               enabled: true,
-                              enabledBorder: OutlineInputBorder(
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                   borderSide: BorderSide(
                                       width: 2, color: Colors.black)),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                   borderSide:
                                       BorderSide(width: 2, color: Colors.black),
                                   borderRadius:
@@ -87,11 +118,39 @@ class LoginEvent extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 28),
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              if (emailController.text == dataUser!.email &&
+                                  passwordController.text ==
+                                      dataUser.password) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  backgroundColor: Colors.green,
+                                  content: Center(
+                                      child: Text(
+                                    'Login Berhasil',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  )),
+                                ));
+                                Navigator.pushNamed(context, '/dashboard_event',
+                                    arguments: dataUser);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  backgroundColor: Colors.red,
+                                  content: Center(
+                                      child: Text(
+                                    'Login Gagal',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w700),
+                                  )),
+                                ));
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
                                 padding: const EdgeInsets.only(
-                                    top: 18, bottom: 18, left: 144, right: 144),
+                                    top: 18, bottom: 18, left: 134, right: 134),
                                 shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10)))),
@@ -116,7 +175,12 @@ class LoginEvent extends StatelessWidget {
                           onPressed: () {
                             Navigator.pushNamed(context, '/register_event');
                           },
-                          child: const Text("Register"))
+                          child: const Text(
+                            "Register",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ))
                     ],
                   )
                 ]),
